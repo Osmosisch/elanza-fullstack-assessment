@@ -22,3 +22,10 @@ To run the node.js server with auto reloading run:
 To run the frontend and backend at the same time run:
 
 ### `npm run dev`
+
+To initialise the database (postgresql), as the postgres user, run:
+
+```
+create user elanza with password 'test';
+create database elanza owner elanza encoding 'utf-8';
+```

@@ -1,6 +1,9 @@
-import React, { useState, useEffect }  from 'react';
-import logo from './logo.png';
+import { Grid, Typography } from '@material-ui/core';
+import { useEffect, useState } from 'react';
 import './App.css';
+import { AppContextProviderComponent } from './AppContext';
+import logo from './logo.png';
+import PostRequestButton from './PostRequestButton/PostRequestButton';
 
 function App() {
   const [data, setData] = useState({ name: 'unknown', counter: 0 });
@@ -11,15 +14,26 @@ function App() {
     setData(result);
   };
 
-  useEffect (() => {
+  useEffect(() => {
     fetchData();
   }, []);
 
   return (
-    <div className="main">
-      <img src={logo} alt="" width="100" /><br />
-      Hello {data.name}, you called the backend {data.counter} times.
-    </div>
+    <AppContextProviderComponent>
+      <Grid container>
+        <Grid item xs={12}>
+          <img src={logo} alt="" width="100" />
+        </Grid>
+        <Grid item xs={12}>
+          <Typography>
+            Hello {data.name}, you called the backend {data.counter} times.
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <PostRequestButton />
+        </Grid>
+      </Grid>
+    </AppContextProviderComponent>
   );
 }
 
