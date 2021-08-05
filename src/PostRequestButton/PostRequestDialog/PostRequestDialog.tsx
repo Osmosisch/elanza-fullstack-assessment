@@ -12,7 +12,8 @@ import {
   Typography,
 } from '@material-ui/core';
 import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
+import _ from 'lodash';
 import { ChangeEvent, useContext, useState } from 'react';
 import { AppContext } from '../../AppContext';
 import { IRequest, TCareKind } from '../../interfaces';
@@ -25,14 +26,16 @@ export default function PostRequestDialog({
   isDialogOpen: boolean;
   onClose: () => void;
 }) {
-  const { addRequest, poster } = useContext(AppContext);
+  const { addRequest, postersById } = useContext(AppContext);
 
   const [careKind, setCareKind] = useState<TCareKind>('medical');
   const [startDateAndTime, setStartDateAndTime] = useState<Date>(new Date());
   const [endDateAndTime, setEndDateAndTime] = useState<Date>(new Date());
   const [extraInfo, setExtraInfo] = useState<string>('');
 
-  function handleSubmit(): Promise<any> {
+  const poster = _.values(postersById)[0];
+
+  async function handleSubmit(): Promise<any> {
     const newRequest: IRequest = {
       careKind,
       startDateAndTime,
@@ -41,16 +44,14 @@ export default function PostRequestDialog({
       posterId: poster.id,
       status: 'open',
     };
-    return axios
-      .post('/api/request', newRequest)
-      .then((response: AxiosResponse) => {
-        if (response.status === 201) {
-          addRequest(newRequest);
-          onClose();
-        } else {
-          console.error('Error posting request: ' + response.data);
-        }
-      });
+
+    const response = await axios.post('/api/requests', newRequest);
+    if (response.status === 201) {
+      addRequest(newRequest);
+      onClose();
+    } else {
+      console.error('Error posting request: ' + response.data);
+    } // TODO: handle errors
   }
 
   return (
@@ -63,7 +64,7 @@ export default function PostRequestDialog({
           <Grid container spacing={2}>
             <Grid item xs={12}>
               <FormControl>
-                <InputLabel id="care-type-label">Care type</InputLabel>
+                <InputLabel id="care-type-label">Kind of care</InputLabel>
                 <Select
                   native
                   value={careKind}

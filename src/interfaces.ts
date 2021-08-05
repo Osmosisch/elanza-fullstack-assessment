@@ -4,6 +4,8 @@ export interface IPoster {
 }
 
 export interface IRequest {
+  // MEMO: this name is way too generic, but I'm being lazy here
+  id?: string;
   posterId: string;
   careKind: TCareKind;
   startDateAndTime: Date;
@@ -15,3 +17,11 @@ export interface IRequest {
 export type TCareKind = 'household' | 'medical';
 
 export type TRequestStatus = 'open' | 'closed';
+
+export type TBackendRequest = Omit<
+  IRequest,
+  'startDateAndTime' | 'endDateAndTime'
+> & {
+  startDateAndTime: string;
+  endDateAndTime: string;
+};

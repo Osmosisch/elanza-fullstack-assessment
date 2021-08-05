@@ -17,6 +17,7 @@ app.get('/api/data', function (req, res) {
   return res.json({ name: 'sunshine', counter: counter });
 });
 
-app.post('/api/request', requestHandlers.handlePostRequest);
+app.post('/api/requests', requestHandlers.handlePostRequest);
+app.get('/api/requests', requestHandlers.handleGetAllRequests);
 
 app.listen(process.env.PORT || 8080);

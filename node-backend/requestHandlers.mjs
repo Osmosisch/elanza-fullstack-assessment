@@ -5,7 +5,13 @@ export default function RequestHandlers(requestModel) {
     res.status(201).json(newRequest);
   }
 
+  async function handleGetAllRequests(_req, res) {
+    const requests = await requestModel.findAll();
+    res.status(200).json(requests);
+  }
+
   return {
     handlePostRequest,
+    handleGetAllRequests,
   };
 }

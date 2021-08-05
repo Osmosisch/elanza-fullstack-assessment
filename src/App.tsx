@@ -4,6 +4,7 @@ import './App.css';
 import { AppContextProviderComponent } from './AppContext';
 import logo from './logo.png';
 import PostRequestButton from './PostRequestButton/PostRequestButton';
+import RequestList from './RequestList/RequestList';
 
 function App() {
   const [data, setData] = useState({ name: 'unknown', counter: 0 });
@@ -31,6 +32,9 @@ function App() {
         </Grid>
         <Grid item xs={12}>
           <PostRequestButton />
+        </Grid>
+        <Grid xs={12}>
+          <RequestList />
         </Grid>
       </Grid>
     </AppContextProviderComponent>

@@ -40,7 +40,12 @@ export default async function RequestModel(sequelize) {
     return newRequest;
   }
 
+  async function findAll() {
+    return await Request.findAll();
+  }
+
   return {
     create,
+    findAll,
   };
 }
